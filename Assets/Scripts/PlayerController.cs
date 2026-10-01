@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] Sprite[] runSprites;
 	[SerializeField] Sprite standSprite;
 	[SerializeField] Sprite jumpSprite;
+	[SerializeField] GameObject manager;
+	[SerializeField] AudioClip getSE;
+	AudioSource aud;
 	float time = 0;
 	int idx = 0;
 	SpriteRenderer spriteRenderer;
@@ -20,31 +24,44 @@ public class PlayerController : MonoBehaviour
     {
 		rigid2D = GetComponent<Rigidbody2D>();
 		spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+		aud = GetComponent<AudioSource>();
+	}
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.gameObject.tag == "mikaku")
 		{
-			Debug.Log("‚¤‚ß‚¦");
+			aud.PlayOneShot(getSE);
+			manager.GetComponent<GameManager>().Score();
 			Destroy(collision.gameObject);
 		}
 		if (collision.gameObject.tag == "imo")
 		{
-			Debug.Log("‚¤‚ß‚¦");
+			aud.PlayOneShot(getSE);
+			manager.GetComponent<GameManager>().Score();
 			Destroy(collision.gameObject);
 		}
 		if (collision.gameObject.tag == "akebi")
 		{
-			Debug.Log("‚¤‚ß‚¦");
+			aud.PlayOneShot(getSE);
+			manager.GetComponent<GameManager>().Score();
+			manager.GetComponent<GameManager>().addAGI();
 			runForce += 5f;
 			Destroy(collision.gameObject);
 		}
 		if (collision.gameObject.tag == "sanma")
 		{
-			Debug.Log("‚¤‚ß‚¦");
+			aud.PlayOneShot(getSE);
+			manager.GetComponent<GameManager>().Score();
+			manager.GetComponent<GameManager>().addJMP();
 			jumpForce += 50f;
 			Destroy(collision.gameObject);
 		}
+		if (collision.gameObject.tag == "goal")
+		{
+			SceneManager.LoadScene("ResultScene");
+			manager.GetComponent<GameManager>().goal();
+		}
+
 	}
 
 	// Update is called once per frame

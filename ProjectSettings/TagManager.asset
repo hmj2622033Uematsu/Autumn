@@ -8,6 +8,7 @@ TagManager:
   - imo
   - akebi
   - sanma
+  - goal
   layers:
   - Default
   - TransparentFX
